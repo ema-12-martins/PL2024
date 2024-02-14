@@ -43,9 +43,13 @@ def modalidades_desportivas(dicionario_dados):
             modalidades.append(elem['modalidade'])
     
     modalidades.sort()
-    return modalidades
+    
+    #Imprimir as modalidades desportivas
+    print("..........Modalidades...........")
+    for modalidade in modalidades:
+        print(f"-{modalidade}")
 
-def percentagem_aptos(dicionario_dados):
+def calcula_percentagem_aptos(dicionario_dados):
     contador=0
     aptos=0
     for elem in dicionario_dados:
@@ -56,13 +60,26 @@ def percentagem_aptos(dicionario_dados):
     percentagem_aptos = int(((aptos/contador)*100)+0.5)
     return percentagem_aptos
 
+def percentagem_aptos(dicionario_dados):
+
+    #Percentagem de aptos
+    print(".......Percentagem de aptos.......")
+    print(calcula_percentagem_aptos(dicionario_dados))
+
 def percentagem_inaptos(dicionario_dados):
-    percentagem_inaptos=100-percentagem_aptos(dicionario_dados)
-    return percentagem_inaptos
+    percentagem_inaptos=100-calcula_percentagem_aptos(dicionario_dados)
+    
+    #Percentagem de inaptos
+    print(".......Percentagem de inaptos.......")
+    print(percentagem_inaptos)
 
 def distribuicao_idades(dicionario_dados):
     distribuicoes={}
+    contador=0
+
     for elem in dicionario_dados:
+        contador+=1
+
         # Calcula o limite inferior do intervalo
         limite_inferior = (int(elem['idade']) // 5) * 5
 
@@ -76,29 +93,29 @@ def distribuicao_idades(dicionario_dados):
             distribuicoes[escalao]+=1
         else:
             distribuicoes[escalao]=1
-        
-    return distribuicoes
+
+    #Ordenar alfabeticamente e depois imprimir
+    keys_dist=list(distribuicoes.keys())
+    keys_dist.sort()
+
+    print(".....Distribuicao de idades dos atletas.....")
+    for k in keys_dist:
+        percentagem = (distribuicoes[k] / contador) * 100
+        print(f"{k}: {distribuicoes[k]} ({percentagem:.2f}%)")
 
 
 
 def main():
     dicionario_dados=ler_csv("emd.csv")
-
-    print("Modalidades Desportivas:")
-    print(modalidades_desportivas(dicionario_dados))
+    
+    #Estatisticas
+    modalidades_desportivas(dicionario_dados)
     print("\n")
-
-    print("Percentagem Aptos:")
-    print(percentagem_aptos(dicionario_dados))
+    percentagem_aptos(dicionario_dados)
     print("\n")
-
-    print("Percentagem Inaptos:")
-    print(percentagem_inaptos(dicionario_dados))
+    percentagem_inaptos(dicionario_dados)
     print("\n")
-
-    print("Distribuicoes:")
-    print(distribuicao_idades(dicionario_dados))
-    print("\n")
+    distribuicao_idades(dicionario_dados)
 
 if __name__ == "__main__":
     main()

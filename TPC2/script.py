@@ -43,13 +43,10 @@ def main(path):
         #Links
         conteudo = re.sub(r"\[(.*?)\]\((.*?)\)", r"<a href='\2'>\1</a>", conteudo, flags=re.DOTALL) 
 
-        
+        #Listas
+        conteudo = re.sub(r"^\d+\. (.*)", r"<li>\1</li>", conteudo, flags=re.MULTILINE)
 
         
-
-
-
-
         print(conteudo)
     
 

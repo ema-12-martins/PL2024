@@ -32,10 +32,10 @@ def main(path):
         conteudo = re.sub(r"#(.*)\n", r"<h1>\1</h1>", conteudo)
 
         #Italicos e Bolds
-        conteudo = re.sub(r"\*\*(.*)\*\*", r"<b>\1</b>", conteudo, flags=re.DOTALL) #Para fazer com que o . a qualquer caracter, inclusive o \n
-        conteudo = re.sub(r"--(.*)--", r"<b>\1</b>", conteudo, flags=re.DOTALL) 
-        conteudo = re.sub(r"\*(.*)\*", r"<i>\1</i>", conteudo, flags=re.DOTALL) 
-        conteudo = re.sub(r"-(.*)-", r"<i>\1</i>", conteudo, flags=re.DOTALL) 
+        conteudo = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", conteudo, flags=re.DOTALL) #Para fazer com que o . a qualquer caracter, inclusive o \n
+        conteudo = re.sub(r"--(.*?)--", r"<b>\1</b>", conteudo, flags=re.DOTALL) #O ? serve para ver o menor possivel para substituir, nao indo verificar a expressao seguinte
+        conteudo = re.sub(r"\*(.*?)\*", r"<i>\1</i>", conteudo, flags=re.DOTALL) 
+        conteudo = re.sub(r"-(.*?)-", r"<i>\1</i>", conteudo, flags=re.DOTALL) 
 
         #Imagens
         conteudo = re.sub(r"\!\[(.*?)\]\((.*?)\)",  r"<img src='\2' alt='\1'>", conteudo, flags=re.DOTALL) 
@@ -45,9 +45,22 @@ def main(path):
 
         #Listas
         conteudo = re.sub(r"^\d+\. (.*)", r"<li>\1</li>", conteudo, flags=re.MULTILINE)
-
+        conteudo = f"<ol>{conteudo}</ol>"
         
+        #Paragrafos
+        conteudo = re.sub(r"\n\n", r"</p><p>", conteudo, flags=re.DOTALL) 
         print(conteudo)
+
+        #Para terminar a pagina principal
+        conteudo+="</ul>"
+        conteudo+="</body>"
+        conteudo+="</html>"
+
+        #Para criar a pagina propriamente dita
+        file = open(f"conversor_md_html.html","w",encoding="utf-8")
+        file.write(conteudo)
+        file.close()
+
     
 
 if __name__ == "__main__":

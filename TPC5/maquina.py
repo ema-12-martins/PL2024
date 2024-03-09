@@ -8,7 +8,7 @@ def main():
         'SAIR',
         'SALDO',
         'MOEDA',
-        'COMPRAR',
+        'SELECIONAR',
     ]
     
     # A regular expression rule with some action code
@@ -42,8 +42,8 @@ def main():
 
         return t
 
-    def t_COMPRAR(t):
-        r'COMPRAR\s(\d)+'
+    def t_SELECIONAR(t):
+        r'SELECIONAR\s(\d)+'
         product= int(re.findall(r'(\d)+', t.value)[0])
         if product>=0 and product<len(t.lexer.listagem):
             price=t.lexer.listagem[product][2]

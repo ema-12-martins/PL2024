@@ -1,34 +1,38 @@
-T = {'+','-','*','/','!','?',')','('}
 
+# Definição da gramática
+~~~
+T = {VARIAVEL,SINAL,NUM,'!','?','=','(',')'}
 
-Expr -> Term Expr'
+N = {Problema, Expressao, Expressao2, Conta}
 
-Expr' -> + Term Expr' 
-        | - Term Expr'
-        | ε
+S = Problema
 
-Term -> Factor Term'
+P = {
 
-Term' -> * Factor Term' 
-        | / Factor Term' 
-        | ε
+(p1) Problema -> '!' Expressao
+(p2)          | '?' VARIAVEL
+(p3)          | VARIAVEL '=' Expressao
 
-Factor -> (Expr) 
-        | Number
+(p4)  Expressao -> Conta Expressao2
+(p5)            | '(' Expressao ')' Expressao2
+(p6)            | NUM
 
-Number -> Digit Number' 
-        | Digit
+(p7)  Expressao2 -> SINAL Expressao
+(p8)             | &
 
-Number' -> Digit Number' |
-         ε
+(p9) Conta -> NUM SINAL NUM
+}
+~~~
 
-Digit -> 0 
-        | 1 
-        | 2 
-        | 3 
-        | 4 
-        | 5 
-        | 6 
-        | 7 
-        | 8 
-        | 9
+# LAs
+~~~
+LA(p1) = {'!'}
+LA(p2) = {'?'}
+LA(p3) = {'VARIAVEL'}
+LA(p4) = {NUM}
+LA(p5) = {'('}
+LA(p6) = {NUM}
+LA(p7) = {SINAL}
+LA(p8) = {'$'}
+LA(p9) = {NUM}
+~~~
